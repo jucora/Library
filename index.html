@@ -1,11 +1,32 @@
 <html>
   <head>
+    <link rel="stylesheet" href="css/style.css" />
     <title>Library</title>
   </head>
   <body>
-    <h1>Welcome to my Library</h1>
-    <h2 id="book_list"></h2>
-    <ul id="store"></ul>
+    <div class="container">
+      <div class="banner">
+        <img src="images/library-banner.jpg" alt="banner" />
+      </div>
+      <nav class="menu">
+        <ul class="options">
+          <li><a href="index.html">BOOKS IN STORE</a></li>
+          <li><a href="new_book.html">NEW BOOK</a></li>
+        </ul>
+      </nav>
+      <h1>Books in store</h1>
+      <div class="jumbotron">
+        <ul id="store"></ul>
+        <form action="new.html">
+          <center><button class="btn btn-primary">New Book</button></center>
+        </form>
+      </div>
+      <footer>
+        <p class="rights">Author: Julian Belmonte</p>
+      </footer>
+    </div>
+
     <script src="library.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.css" />
   </body>
 </html>

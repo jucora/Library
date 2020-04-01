@@ -1,0 +1,55 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: rgb(9, 9, 41) !important;
+  color: #fff !important;
+  font-family: verdana;
+}
+.banner img {
+  width: 100%;
+}
+
+/*navbar options*/
+.options {
+  background: #1653c6;
+  overflow: hidden;
+}
+.options li {
+  float: left;
+  list-style: none; /*Elimina la viñeta*/
+}
+.options li a {
+  color: #fff;
+  display: block;
+  font-weight: bold;
+  padding: 10px 15px;
+  text-decoration: none; /*Elimina el subrayado*/
+}
+.options li a:hover {
+  background: #36cbef;
+  color: #242526;
+}
+
+h1 {
+  text-align: center !important;
+}
+
+/*new Book form style*/
+.new {
+  border: 1px solid white;
+  border-radius: 50px;
+  padding: 50px;
+}
+
+footer {
+  background: #071238;
+  padding: 14px 0;
+}
+.rights {
+  color: #fff;
+  font-size: 12px;
+  font-style: italic;
+  padding-left: 30px;
+}
