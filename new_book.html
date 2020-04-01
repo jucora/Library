@@ -16,9 +16,9 @@
       </nav>
       <h1>New Book</h1>
       <div class="container">
-        <div class="row new">
+        <div class="row form">
           <div class="col-md-6">
-            <form action="/action_page.php">
+            <form onsubmit="return addBookToLibrary()">
               <label for="author">Author:</label><br />
               <input type="text" id="author" class="form-control" /><br />
               <label for="title">Title:</label><br />
@@ -30,7 +30,7 @@
                 class="form-control"
               /><br /><br />
               <center>
-                <input type="submit" value="Submit" class="btn btn-primary" />
+                <input type="submit" value="Add Book" class="btn btn-primary" />
               </center>
             </form>
           </div>

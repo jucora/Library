@@ -37,10 +37,16 @@ h1 {
 }
 
 /*new Book form style*/
-.new {
+.form {
   border: 1px solid white;
   border-radius: 50px;
+  overflow: hidden;
   padding: 50px;
+}
+.book {
+  float: left;
+  list-style: none;
+  padding: 0 5% 1% 0;
 }
 
 footer {
