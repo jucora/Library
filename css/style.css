@@ -36,6 +36,13 @@ h1 {
   text-align: center !important;
 }
 
+.read {
+  background-color: green;
+}
+.not-read {
+  background-color: red;
+}
+
 /*new Book form style*/
 .form {
   border: 1px solid white;
