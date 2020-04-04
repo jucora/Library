@@ -61,14 +61,20 @@ function draw_book(item, element) {
 }
 
 function render(myLibrary) {
-  myLibrary.forEach(function(element) {
-    var item = document.createElement("li");
-    item.classList.add("book");
-    draw_book(item, element);
+  store.innerHTML = "";
+  console.log(store);
+  myLibrary.forEach(function(element, index) {
+    if (!store.contains(store.children[index])) {
+      var item = document.createElement("li");
+      item.classList.add("book");
+      draw_book(item, element);
+    }
   });
   var boxes = document.querySelectorAll("#read-box");
   var labels = document.querySelectorAll("#read-label");
   var remove_buttons = document.querySelectorAll(".remove");
+  var books = document.querySelectorAll(".book");
+
   boxes.forEach(function(box, index) {
     box.addEventListener("change", function() {
       if (labels[index].textContent === "Read") {
@@ -82,7 +88,9 @@ function render(myLibrary) {
   });
   remove_buttons.forEach(function(button, index) {
     button.addEventListener("click", function() {
-      store.children[index].remove();
+      books[index].remove();
+      myLibrary.splice(index, 1);
+      render(myLibrary);
     });
   });
 }
@@ -126,7 +134,9 @@ document.querySelector(".new").addEventListener("click", function() {
       message.textContent = "All fields are required!";
     } else {
       let book = new Book(title, author, pages);
-      addBookToLibrary(book);
+      //addBookToLibrary(book);
+      myLibrary.push(book);
+      render(myLibrary);
       message.textContent = "Added!";
       document.querySelector("#author").value = "";
       document.querySelector("#title").value = "";
