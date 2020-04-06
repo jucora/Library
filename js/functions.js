@@ -4,38 +4,57 @@ function Book(title, author, pages) {
   this.number_of_pages = pages;
 }
 
-function render(myLibrary) {
-  store.innerHTML = "";
-  console.log(store);
-  myLibrary.forEach(function (element, index) {
-    if (!store.contains(store.children[index])) {
-      var item = document.createElement("li");
-      item.classList.add("book");
-      draw_book(item, element);
-    }
-  });
-  var boxes = document.querySelectorAll("#read-box");
-  var labels = document.querySelectorAll("#read-label");
-  var remove_buttons = document.querySelectorAll(".remove");
-  var books = document.querySelectorAll(".book");
+Book.prototype.read = false;
 
-  boxes.forEach(function (box, index) {
-    box.addEventListener("change", function () {
-      if (labels[index].textContent === "Read") {
-        console.log(labels[index]);
-        labels[index].textContent = "Not Read";
-      } else if (labels[index].textContent === "Not Read") {
-        console.log(labels[index]);
-        labels[index].textContent = "Read";
-      }
+document.addEventListener("DOMContentLoaded", ready);
+var myLibrary = get_localstorage();
+
+function ready() {
+  if (myLibrary == null) {
+    myLibrary = [
+      {
+        title: "Harry Potter",
+        author: "J. K. Rowling",
+        number_of_pages: 200,
+      },
+      {
+        title: "Lord of rings",
+        author: "J. R. R. Tolkien",
+        number_of_pages: 300,
+      },
+      {
+        title: "The Hobbit",
+        author: "J. R. R. Tolkien",
+        number_of_pages: 150,
+      },
+      {
+        title: "Bible",
+        author: "No author",
+        number_of_pages: 500,
+      },
+    ];
+    myLibrary.forEach(function (book) {
+      book.read = false;
     });
-  });
-  remove_buttons.forEach(function (button, index) {
-    button.addEventListener("click", function () {
-      books[index].remove();
-      myLibrary.splice(index, 1);
-      render(myLibrary);
-    });
+  }
+  render(myLibrary);
+}
+
+function get_localstorage() {
+  myLibrary = JSON.parse(localStorage.getItem("myLibrary"));
+  return myLibrary;
+}
+
+function save_localstorage(myLibrary) {
+  localStorage.setItem("myLibrary", JSON.stringify(myLibrary));
+  get_localstorage();
+}
+
+function render(myLibrary) {
+  myLibrary.forEach(function (element) {
+    var item = document.createElement("li");
+    item.classList.add("book");
+    draw_book(item, element);
   });
 }
 
@@ -46,15 +65,9 @@ function check_message() {
   }
 }
 
-function addBookToLibrary(book) {
-  myLibrary.push(book);
-  let new_item = document.createElement("li");
-  new_item.classList.add("book");
-  draw_book(new_item, book);
-}
-
 function draw_book(item, element) {
   var store = document.querySelector("#store");
+
   item.innerHTML =
     "<center><h2>" +
     element.title +
@@ -66,10 +79,45 @@ function draw_book(item, element) {
     "<p>Pages: " +
     element.number_of_pages +
     "</p>" +
-    "<input type='checkbox' id = 'read-box'> " +
-    "<label for='read' id = 'read-label'>Not Read</label>\n" +
-    "<br/></br><button class = 'btn btn-primary remove' data-value= " +
-    element +
-    ">Remove</button>";
+    "<input type='checkbox' id = 'read-box' data-value='" +
+    element.title +
+    "'>" +
+    "<label for='read' id = 'read-label' data-value='" +
+    element.title +
+    "'>Not Read</label>\n" +
+    "<br/></br><button class = 'btn btn-primary remove' data-value='" +
+    element.title +
+    "'>Remove</button>";
   store.appendChild(item);
+  var boxes = document.querySelectorAll("#read-box"); // checkboxes
+  var labels = document.querySelectorAll("#read-label");
 }
+
+store.addEventListener("click", function (e) {
+  if (e.target && e.target.matches("input")) {
+    let index = myLibrary
+      .map((book) => book.title)
+      .indexOf(e.target.dataset.value);
+    if (myLibrary[index].read == false) {
+      myLibrary[index].read = true;
+      e.target.nextSibling.innerHTML = "Read";
+    } else {
+      myLibrary[index].read = false;
+      e.target.nextSibling.innerHTML = "Not Read";
+    }
+    save_localstorage(myLibrary);
+  }
+});
+
+store.addEventListener("click", function (e) {
+  if (e.target && e.target.matches("button")) {
+    let index = myLibrary
+      .map((book) => book.title)
+      .indexOf(e.target.dataset.value);
+
+    myLibrary.splice(index, 1);
+
+    e.target.parentNode.parentNode.remove(e.target);
+    save_localstorage(myLibrary);
+  }
+});
