@@ -1,7 +1,57 @@
-var myLibrary = get_localstorage();
-document.addEventListener("DOMContentLoaded", ready);
+var store = document.querySelector("#store");
 
+function getLocalstorage() {
+  let currentLibrary = JSON.parse(localStorage.getItem("myLibrary"));
+  return currentLibrary;
+}
+
+let myLibrary = getLocalstorage();
 //FUNCTIONS
+
+function drawBook(item, element) {
+  let bookRecord;
+  let boxRecord;
+  if (element.read === true) {
+    bookRecord = "Read";
+    boxRecord = "checked = 'checked'";
+  } else {
+    bookRecord = "Not Read";
+    boxRecord = "";
+  }
+  item.innerHTML =
+    "<center><h2>" +
+    element.title +
+    "</h2></center>" +
+    "<center><img src= 'images/book_store.png' width='200px' class='book-cover'>" +
+    "<p>Author: " +
+    element.author +
+    "</p>" +
+    "<p>Pages: " +
+    element.number_of_pages +
+    "</p>" +
+    "<input type='checkbox' id = 'read-box' data-value='" +
+    element.title +
+    "'" +
+    boxRecord +
+    ">" +
+    "<label for='read' id = 'read-label' data-value='" +
+    element.title +
+    "'>" +
+    bookRecord +
+    "</label>\n" +
+    "<br/></br><button class = 'btn btn-primary remove' data-value='" +
+    element.title +
+    "'>Remove</button>";
+  store.appendChild(item);
+}
+
+function render(myLibrary) {
+  myLibrary.forEach(function (element) {
+    var item = document.createElement("li");
+    item.classList.add("book");
+    drawBook(item, element);
+  });
+}
 
 function ready() {
   if (myLibrary == null) {
@@ -34,6 +84,8 @@ function ready() {
   render(myLibrary);
 }
 
+document.addEventListener("DOMContentLoaded", ready);
+
 function Book(title, author, pages) {
   this.title = title;
   this.author = author;
@@ -42,63 +94,12 @@ function Book(title, author, pages) {
 
 Book.prototype.read = false;
 
-function render(myLibrary) {
-  myLibrary.forEach(function (element) {
-    var item = document.createElement("li");
-    item.classList.add("book");
-    draw_book(item, element);
-  });
-}
-
-function draw_book(item, element) {
-  var store = document.querySelector("#store");
-  let book_record;
-  let box_record;
-  if (element.read == true) {
-    book_record = "Read";
-    box_record = "checked = 'checked'";
-  } else {
-    book_record = "Not Read";
-    box_record = "";
-  }
-  item.innerHTML =
-    "<center><h2>" +
-    element.title +
-    "</h2></center>" +
-    "<center><img src= 'images/book_store.png' width='200px' class='book-cover'>" +
-    "<p>Author: " +
-    element.author +
-    "</p>" +
-    "<p>Pages: " +
-    element.number_of_pages +
-    "</p>" +
-    "<input type='checkbox' id = 'read-box' data-value='" +
-    element.title +
-    "'" +
-    box_record +
-    ">" +
-    "<label for='read' id = 'read-label' data-value='" +
-    element.title +
-    "'>" +
-    book_record +
-    "</label>\n" +
-    "<br/></br><button class = 'btn btn-primary remove' data-value='" +
-    element.title +
-    "'>Remove</button>";
-  store.appendChild(item);
-}
-
-function get_localstorage() {
-  myLibrary = JSON.parse(localStorage.getItem("myLibrary"));
-  return myLibrary;
-}
-
-function save_localstorage(myLibrary) {
+function saveLocalstorage(myLibrary) {
   localStorage.setItem("myLibrary", JSON.stringify(myLibrary));
-  get_localstorage();
+  getLocalstorage();
 }
 
-function check_message() {
+function checkMessage() {
   let message = document.getElementById("submit-message");
   if (document.contains(message)) {
     message.remove();
@@ -133,8 +134,8 @@ document.querySelector(".new").addEventListener("click", function () {
 
     let message = document.createElement("p");
     message.setAttribute("id", "submit-message");
-    check_message();
-    if (author == "" || title == "" || pages == "") {
+    checkMessage();
+    if (author === "" || title === "" || pages === "") {
       document.getElementById("new-book").removeAttribute("href");
       message.textContent = "All fields are required!";
     } else {
@@ -142,15 +143,14 @@ document.querySelector(".new").addEventListener("click", function () {
       let book = new Book(title, author, pages);
       book.read = false;
       myLibrary.push(book);
-      console.log(myLibrary);
-      save_localstorage(myLibrary);
+      saveLocalstorage(myLibrary);
       message.textContent = "Added!";
       document.querySelector("#author").value = "";
       document.querySelector("#title").value = "";
       document.querySelector("#number_pages").value = "";
       var item = document.createElement("li");
       item.classList.add("book");
-      draw_book(item, book);
+      drawBook(item, book);
       document.getElementById("add-new-book").innerHTML = "";
     }
     document.forms.newform.appendChild(message);
@@ -162,14 +162,14 @@ store.addEventListener("click", function (e) {
     let index = myLibrary
       .map((book) => book.title)
       .indexOf(e.target.dataset.value);
-    if (myLibrary[index].read == false) {
+    if (myLibrary[index].read === false) {
       myLibrary[index].read = true;
       e.target.nextSibling.innerHTML = "Read";
     } else {
       myLibrary[index].read = false;
       e.target.nextSibling.innerHTML = "Not Read";
     }
-    save_localstorage(myLibrary);
+    saveLocalstorage(myLibrary);
   }
 });
 
@@ -182,6 +182,6 @@ store.addEventListener("click", function (e) {
     myLibrary.splice(index, 1);
 
     e.target.parentNode.parentNode.remove(e.target);
-    save_localstorage(myLibrary);
+    saveLocalstorage(myLibrary);
   }
 });
