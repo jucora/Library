@@ -4,9 +4,7 @@
   <img src="images/library.png">
 </p>
 
-# :globe_with_meridians: Live version
-
-<h2>https://jucora.github.io/Library/</h2>
+# :globe_with_meridians: [Live Version](https://jucora.github.io/Library):point_left:
 
 ## :pencil: Description
 
