@@ -1,7 +1,9 @@
-const store = document.querySelector("#store");
+/* global bookInfo, bookInfo, newBookInfo */
+
+const store = document.querySelector('#store');
 
 function getLocalstorage() {
-  const currentLibrary = JSON.parse(localStorage.getItem("myLibrary"));
+  const currentLibrary = JSON.parse(localStorage.getItem('myLibrary'));
   return currentLibrary;
 }
 
@@ -12,11 +14,11 @@ function drawBook(item, element) {
   let bookRecord;
   let boxRecord;
   if (element.read === true) {
-    bookRecord = "Read";
+    bookRecord = 'Read';
     boxRecord = "checked = 'checked'";
   } else {
-    bookRecord = "Not Read";
-    boxRecord = "";
+    bookRecord = 'Not Read';
+    boxRecord = '';
   }
   bookInfo(item, element, boxRecord, bookRecord);
 
@@ -25,8 +27,8 @@ function drawBook(item, element) {
 
 function render(myLibrary) {
   myLibrary.forEach((element) => {
-    const item = document.createElement("li");
-    item.classList.add("book");
+    const item = document.createElement('li');
+    item.classList.add('book');
     drawBook(item, element);
   });
 }
@@ -35,23 +37,23 @@ function ready() {
   if (myLibrary == null) {
     myLibrary = [
       {
-        title: "Harry Potter",
-        author: "J. K. Rowling",
+        title: 'Harry Potter',
+        author: 'J. K. Rowling',
         number_of_pages: 200,
       },
       {
-        title: "Lord of rings",
-        author: "J. R. R. Tolkien",
+        title: 'Lord of rings',
+        author: 'J. R. R. Tolkien',
         number_of_pages: 300,
       },
       {
-        title: "The Hobbit",
-        author: "J. R. R. Tolkien",
+        title: 'The Hobbit',
+        author: 'J. R. R. Tolkien',
         number_of_pages: 150,
       },
       {
-        title: "Bible",
-        author: "No author",
+        title: 'Bible',
+        author: 'No author',
         number_of_pages: 500,
       },
     ];
@@ -62,7 +64,7 @@ function ready() {
   render(myLibrary);
 }
 
-document.addEventListener("DOMContentLoaded", ready);
+document.addEventListener('DOMContentLoaded', ready);
 
 function Book(title, author, pages) {
   this.title = title;
@@ -73,12 +75,12 @@ function Book(title, author, pages) {
 Book.prototype.read = false;
 
 function saveLocalstorage(myLibrary) {
-  localStorage.setItem("myLibrary", JSON.stringify(myLibrary));
+  localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
   getLocalstorage();
 }
 
 function checkMessage() {
-  let message = document.getElementById("submit-message");
+  const message = document.getElementById('submit-message');
   if (document.body.contains(message)) {
     message.remove();
   }
@@ -86,57 +88,57 @@ function checkMessage() {
 
 // EVENT LISTENERS
 
-document.querySelector(".new").addEventListener("click", () => {
+document.querySelector('.new').addEventListener('click', () => {
   newBookInfo();
 
-  document.querySelector("#new-book").addEventListener("click", () => {
-    const author = document.querySelector("#author").value;
-    const title = document.querySelector("#title").value;
-    const pages = document.querySelector("#number_pages").value;
+  document.querySelector('#new-book').addEventListener('click', () => {
+    const author = document.querySelector('#author').value;
+    const title = document.querySelector('#title').value;
+    const pages = document.querySelector('#number_pages').value;
 
-    const message = document.createElement("p");
-    message.setAttribute("id", "submit-message");
+    const message = document.createElement('p');
+    message.setAttribute('id', 'submit-message');
     checkMessage();
-    if (author === "" || title === "" || pages === "") {
-      document.getElementById("new-book").removeAttribute("href");
-      message.textContent = "All fields are required!";
+    if (author === '' || title === '' || pages === '') {
+      document.getElementById('new-book').removeAttribute('href');
+      message.textContent = 'All fields are required!';
       document.forms.newform.appendChild(message);
     } else {
-      document.getElementById("new-book").setAttribute("href", "#banner");
+      document.getElementById('new-book').setAttribute('href', '#banner');
       const book = new Book(title, author, pages);
       book.read = false;
       myLibrary.push(book);
       saveLocalstorage(myLibrary);
-      message.textContent = "Added!";
-      document.querySelector("#author").value = "";
-      document.querySelector("#title").value = "";
-      document.querySelector("#number_pages").value = "";
-      const item = document.createElement("li");
-      item.classList.add("book");
+      message.textContent = 'Added!';
+      document.querySelector('#author').value = '';
+      document.querySelector('#title').value = '';
+      document.querySelector('#number_pages').value = '';
+      const item = document.createElement('li');
+      item.classList.add('book');
       drawBook(item, book);
-      document.getElementById("add-new-book").innerHTML = "";
+      document.getElementById('add-new-book').innerHTML = '';
     }
   });
 });
 
-store.addEventListener("click", (e) => {
-  if (e.target && e.target.matches("input")) {
+store.addEventListener('click', (e) => {
+  if (e.target && e.target.matches('input')) {
     const index = myLibrary
       .map((book) => book.title)
       .indexOf(e.target.dataset.value);
     if (myLibrary[index].read === false) {
       myLibrary[index].read = true;
-      e.target.nextSibling.innerHTML = "Read";
+      e.target.nextSibling.innerHTML = 'Read';
     } else {
       myLibrary[index].read = false;
-      e.target.nextSibling.innerHTML = "Not Read";
+      e.target.nextSibling.innerHTML = 'Not Read';
     }
     saveLocalstorage(myLibrary);
   }
 });
 
-store.addEventListener("click", (e) => {
-  if (e.target && e.target.matches("button")) {
+store.addEventListener('click', (e) => {
+  if (e.target && e.target.matches('button')) {
     const index = myLibrary
       .map((book) => book.title)
       .indexOf(e.target.dataset.value);
