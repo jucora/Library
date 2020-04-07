@@ -2,11 +2,16 @@
   margin: 0;
   padding: 0;
 }
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: rgb(9, 9, 41) !important;
   color: #fff !important;
   font-family: verdana;
 }
+
 .banner img {
   width: 100%;
 }
@@ -30,6 +35,11 @@ body {
 .options li a:hover {
   background: #36cbef;
   color: #242526;
+}
+
+.book-cover:hover {
+  transform: rotate(360deg);
+  transition: all 1s;
 }
 
 h1 {

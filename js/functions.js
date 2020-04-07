@@ -67,12 +67,20 @@ function check_message() {
 
 function draw_book(item, element) {
   var store = document.querySelector("#store");
-
+  let book_record;
+  let box_record;
+  if (element.read == true) {
+    book_record = "Read";
+    box_record = "checked = 'checked'";
+  } else {
+    book_record = "Not Read";
+    box_record = "";
+  }
   item.innerHTML =
     "<center><h2>" +
     element.title +
     "</h2></center>" +
-    "<center><img src= 'images/book_store.png' width='200px'>" +
+    "<center><img src= 'images/book_store.png' width='200px' class='book-cover'>" +
     "<p>Author: " +
     element.author +
     "</p>" +
@@ -81,16 +89,18 @@ function draw_book(item, element) {
     "</p>" +
     "<input type='checkbox' id = 'read-box' data-value='" +
     element.title +
-    "'>" +
+    "'" +
+    box_record +
+    ">" +
     "<label for='read' id = 'read-label' data-value='" +
     element.title +
-    "'>Not Read</label>\n" +
+    "'>" +
+    book_record +
+    "</label>\n" +
     "<br/></br><button class = 'btn btn-primary remove' data-value='" +
     element.title +
     "'>Remove</button>";
   store.appendChild(item);
-  var boxes = document.querySelectorAll("#read-box"); // checkboxes
-  var labels = document.querySelectorAll("#read-label");
 }
 
 store.addEventListener("click", function (e) {
