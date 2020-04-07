@@ -1,5 +1,3 @@
-/* exported */
-
 function bookInfo(item, element, boxRecord, bookRecord) {
   item.innerHTML = `<center><h2>${element.title}</h2></center>`
     + "<center><img src= 'images/book_store.png' width='200px' class='book-cover'>"
